@@ -1,0 +1,96 @@
+name: sql-query-debugger
+version: 1.0.0
+description: |
+  An OpenEnv environment for training AI agents to debug and fix broken SQL queries.
+
+  Agents receive a database schema, sample data, and a broken SQL query. They must
+  diagnose the issues and submit a corrected query that produces the expected results.
+
+  This simulates a real-world task that developers perform daily - debugging SQL queries
+  to fix syntax errors, logic bugs, and performance issues.
+
+author: OpenEnv Community
+license: MIT
+tags:
+  - sql
+  - debugging
+  - code-repair
+  - real-world
+  - openenv
+
+spec_version: "1.0"
+
+# Environment configuration
+environment:
+  entry_point: server.main:app
+  observation_model: server.models:SQLObservation
+  action_model: server.models:SQLAction
+  reward_model: server.models:SQLReward
+
+# Available tasks with difficulty levels
+tasks:
+  - id: easy_syntax_fix
+    name: Easy - Syntax Fix
+    description: Fix simple SQL syntax errors (typos in keywords)
+    difficulty: easy
+    max_steps: 10
+    grader: server.tasks:grade_task
+
+  - id: medium_join_logic
+    name: Medium - JOIN Logic
+    description: Fix JOIN conditions and aggregation issues
+    difficulty: medium
+    max_steps: 12
+    grader: server.tasks:grade_task
+
+  - id: hard_complex_analysis
+    name: Hard - Complex Analytics
+    description: Fix complex subquery and correlation issues
+    difficulty: hard
+    max_steps: 15
+    grader: server.tasks:grade_task
+
+# Endpoint configuration
+endpoints:
+  reset: /reset
+  step: /step
+  state: /state
+  health: /health
+  tasks: /tasks
+
+# Reward configuration
+rewards:
+  range: [0.0, 1.0]
+  type: dense
+  components:
+    - name: syntax_valid
+      weight: 0.2
+      description: Query executes without syntax errors
+    - name: row_count
+      weight: 0.2
+      description: Returns correct number of rows
+    - name: column_count
+      weight: 0.1
+      description: Returns correct number of columns
+    - name: data_correct
+      weight: 0.5
+      description: Returns exact expected data
+
+# Container configuration
+container:
+  dockerfile: Dockerfile
+  port: 7860
+  healthcheck:
+    endpoint: /health
+    interval: 30s
+    timeout: 10s
+    retries: 3
+
+# HuggingFace Space configuration
+huggingface:
+  space_sdk: docker
+  space_hardware: cpu-basic
+  tags:
+    - openenv
+    - sql
+    - debugging
