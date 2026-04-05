@@ -1,3 +1,16 @@
+---
+title: SQL Query Debugger
+emoji: 🔍
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+tags:
+  - openenv
+  - sql
+  - debugging
+---
+
 # SQL Query Debugger
 
 An **OpenEnv**-compliant environment for training and evaluating AI agents on real-world SQL debugging tasks.
