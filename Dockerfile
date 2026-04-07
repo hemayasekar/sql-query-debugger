@@ -1,7 +1,7 @@
 # SQL Query Debugger OpenEnv - Dockerfile
 # Optimized for HuggingFace Spaces
 
-FROM python:3.11-slim
+FROM python:3.11-slim-bookworm
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
