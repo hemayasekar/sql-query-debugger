@@ -326,8 +326,8 @@ def run_episode(
         log_debug(f"Episode error: {e}")
         final_score = 0.0
 
-    # Ensure score is in [0, 1]
-    final_score = max(0.0, min(1.0, final_score))
+    # Ensure score is strictly in (0, 1) — validators reject exact 0.0 and 1.0
+    final_score = max(0.001, min(0.999, final_score))
 
     log_end(success=success, steps=steps, score=final_score, rewards=rewards)
 

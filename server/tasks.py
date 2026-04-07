@@ -377,6 +377,9 @@ class SQLGrader:
 
         total_score = sum(partial_scores.values())
 
+        # Clamp to strictly between 0 and 1 (validators reject exact 0.0 and 1.0)
+        total_score = max(0.001, min(0.999, total_score))
+
         # Generate reason
         if total_score >= 0.99:
             reason = "Query is correct - returns exact expected results"
