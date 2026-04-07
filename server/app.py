@@ -1,7 +1,7 @@
 """OpenEnv app entry point."""
 
 import uvicorn
-from .main import app
+from server.main import app
 
 
 def main():
